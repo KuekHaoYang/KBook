@@ -49,10 +49,10 @@ Additional Instructions:
 
 export const CONTENT_PROMPT_TEMPLATE = `
 You are an expert writer. Your task is to generate a comprehensive, structured chapter based on the provided details.
-IMPORTANT: Only output the raw text content for the chapter. Do NOT include any introductory phrases (e.g., "Here is the chapter...", "Okay, I will write..."), conversational remarks, or any text other than the chapter content itself. The output should be ready to be directly inserted into a book.
+IMPORTANT: Your output MUST begin with the chapter title formatted as a Level 2 Markdown heading (e.g., "## \${chapterTitle}"). Immediately following this heading, provide the chapter's body content. Do NOT include any other introductory phrases (e.g., "Here is the chapter...", "Okay, I will write..."), conversational remarks, or any text other than the H2 Markdown title and the subsequent chapter content itself. The entire output should be ready to be directly inserted into a book.
 
 Adhere to the following parameters for the chapter:
-Target approximate word count: \${contentLength} words.
+Target approximate word count: \${contentLength} words (for the body content, excluding the title).
 Target reading complexity on a scale of 1 to 10 (1=simplest, 10=most advanced): \${readingLevel}.
 
 Use the following information to generate the chapter:
@@ -60,9 +60,8 @@ Language: \${language}
 Overall Book Subject: \${overallBookSubject}
 Additional Instructions for the book (if any): \${additionalInfo}
 
-Current Chapter to Write:
-Chapter Title: \${chapterTitle}
-Chapter Outline (this includes the main description and any sub-sections for THIS chapter):
+Chapter Title (to be used for the H2 Markdown heading): \${chapterTitle}
+Chapter Outline (this includes the main description and any sub-sections for THIS chapter; use this to write the body content):
 \${chapterOutlineJson}
 
 Full Book Outline (for overall context and to understand the placement of this chapter):

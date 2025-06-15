@@ -17,8 +17,8 @@ const BookViewPane: React.FC<BookViewPaneProps> = ({ title, chapters, onStartOve
     }
     chapters.forEach(chapter => {
       if (chapter.status === 'done' && chapter.content) {
-        markdown += `## ${chapter.path.join(' / ')}\n\n`;
-        markdown += `${chapter.content}\n\n`;
+        // The chapter.content from AI is now expected to include the "## Chapter Title" Markdown
+        markdown += `${chapter.content}\n\n`; 
       }
     });
     return markdown.trim();
@@ -85,11 +85,15 @@ const BookViewPane: React.FC<BookViewPaneProps> = ({ title, chapters, onStartOve
 
       <div className="mt-8 space-y-10 prose prose-invert prose-lg max-w-none prose-headings:text-sky-400 prose-p:text-slate-300 prose-strong:text-slate-100">
         {successfullyGeneratedChapters.map((chapter) => (
-          <section key={chapter.id} className="p-6 bg-slate-700/70 rounded-lg shadow-lg" aria-labelledby={`chapter-heading-${chapter.id}`}>
-            <h3 id={`chapter-heading-${chapter.id}`} className="text-2xl font-semibold !mt-0 !mb-3">
-              {chapter.path.join(' / ')}
-            </h3>
-            <div className="whitespace-pre-wrap text-slate-200 leading-relaxed">
+          // The chapter.path.join(' / ') is still useful for the key and aria-labelledby if needed for accessibility,
+          // but the visual title is now expected to be part of chapter.content.
+          <section key={chapter.id} className="p-6 bg-slate-700/70 rounded-lg shadow-lg" aria-labelledby={`chapter-heading-internal-${chapter.id}`}>
+            {/* 
+              The H3 title previously rendered by the app is removed.
+              The chapter.content itself should now start with "## Chapter Title" from the AI.
+              The 'prose' styles will handle the H2 from the markdown content.
+            */}
+            <div id={`chapter-heading-internal-${chapter.id}`} className="whitespace-pre-wrap text-slate-200 leading-relaxed">
               {chapter.content}
             </div>
           </section>
